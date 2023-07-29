@@ -6,7 +6,7 @@ from syntax_helper import SyntaxHelper
 from logger import Logger
 from hasher import Hasher
 from paper_comparer import PaperComparer
-import sqlite
+import sqlite3
 def create_graph():
     global term_graph
     term_graph = TermGraph()
