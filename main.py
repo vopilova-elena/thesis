@@ -104,6 +104,7 @@ print(Logger.get_current_time() + ": end clustering...")
 print("print_clusters_weights")
 paper_loader.print_clusters(True)
 
+
 #paper_loader.save_clusters(dbname)
 # print("1")
 # paper_loader.load_file_with_evaporativity("_in\\papers\\p_2_1.txt", log_fname)
