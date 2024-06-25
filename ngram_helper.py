@@ -1,4 +1,4 @@
-N_MAX = 3
+N_MAX = 5
 
 
 class NGramHelper(object):

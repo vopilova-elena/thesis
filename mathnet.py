@@ -1,5 +1,5 @@
 from syntax_helper import SyntaxHelper
-from term_graph import TermGraph
+from term_graph_deprecated import TermGraph
 from hasher import Hasher
 from logger import Logger
 

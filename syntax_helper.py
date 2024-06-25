@@ -1,22 +1,36 @@
-from natasha import (Segmenter, MorphVocab, NewsEmbedding, NewsMorphTagger, NewsSyntaxParser, NewsNERTagger, PER,
-                     NamesExtractor, Doc)
+from pathlib import Path
+from natasha import (Segmenter, MorphVocab, NewsEmbedding, NewsMorphTagger, NewsSyntaxParser, NewsNERTagger, Doc)
 from hasher import Hasher
+
 N_MAX = 3
 
-
 class SyntaxHelper(object):
-    def __init__(self, invalid_fname):
+    def __init__(self, fname):
         self.segmenter = Segmenter()
         self.morph_vocab = MorphVocab()
         self.emb = NewsEmbedding()
         self.morph_tagger = NewsMorphTagger(self.emb)
         self.syntax_parser = NewsSyntaxParser(self.emb)
         self.ner_tagger = NewsNERTagger(self.emb)
-        self.fname = invalid_fname
+
+        p = Path(fname)
+        if not Path(p.parents[0]).exists():
+            Path(p.parents[0]).mkdir(parents=True)
+        self.fname = fname
 
     def lemmatize(self, tokens):
         for t in tokens:
             t.lemmatize(self.morph_vocab)
+
+    @staticmethod
+    def get_valid_term(tokens):
+        tmp = len(tokens)
+        res = []
+        for t in tokens:
+            # из термина исключаются предлоги
+            if t.pos not in ['ADP', 'CONJ', 'CCONJ']:
+                res.append(t)
+        return res
 
     @staticmethod
     def get_valid_tokens(tokens):
@@ -30,6 +44,8 @@ class SyntaxHelper(object):
             ]:
                 res.append(t)
         return res
+    def has_noun(self, tokens):
+       return 'NOUN' in [t.pos for t in tokens]
 
     def has_valid_syntax_tree(self, tokens):
         if len(tokens) == 1:  # униграмма всегда синтаксически верна
